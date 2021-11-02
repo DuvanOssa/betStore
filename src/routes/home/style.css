@@ -1,5 +1,48 @@
 .home {
-	padding: 56px 20px;
-	min-height: 100%;
-	width: 100%;
+    width: 100%;
+    height: calc(100% - 100px);
+    margin-top: 1rem;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    background-color: #fafafa;
+    border-radius: 0.5rem;
+    box-shadow: 0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
+}
+
+.homeHeader {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.productList {
+    display: grid;
+    width: 100%;
+    overflow-y: auto;
+    margin-top: 1.5rem;
+    padding-right: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    grid-gap: 1.5rem;
+    grid-auto-rows: minmax(300px, auto);
+    text-decoration: none;
+}
+
+.productList::-webkit-scrollbar {
+    width: 10px;
+    display: grid;
+}
+
+.productList::-webkit-scrollbar-thumb {
+    background: rgba(191, 191, 201, 1);
+    border-radius: 4px;
+}
+
+.productList::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(140, 140, 150, 1);
+}
+
+.productList::-webkit-scrollbar-thumb:active {
+    background-color: rgba(89, 89, 99, 1);
 }
