@@ -2,7 +2,6 @@ import { Fragment } from 'preact';
 import style from './style.css';
 
 export const Select = ({ options, labelText, placeHolder }) => {
-  console.log(options);
   return (
     <Fragment>
       <div class={style.root}>

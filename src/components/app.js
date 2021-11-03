@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import { getCurrentUrl, Router } from 'preact-router';
+import { Router } from 'preact-router';
 
 import Header from './header';
 
@@ -9,13 +9,13 @@ import Product from '../routes/product';
 import { useState } from 'preact/hooks';
 
 const App = () => {
-  const [currentUrl, setCurrentUrl] = useState({});
-  const onRouteChange = () => {
-    setCurrentUrl(getCurrentUrl());
+  const [currentProductId, setCurrentProductId] = useState('');
+  const onRouteChange = (e) => {
+    setCurrentProductId(e.current.props.id);
   };
   return (
     <div id='app'>
-      <Header currentUrl={currentUrl} />
+      <Header currentProductId={currentProductId} />
       <Router onChange={onRouteChange}>
         <Home path='/' />
         <Product path='/product/:id' />
