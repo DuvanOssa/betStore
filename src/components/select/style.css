@@ -1,0 +1,11 @@
+.root {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0.5rem 0px;
+}
+
+select {
+    width: 200px;
+    height: 30px;
+}
