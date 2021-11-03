@@ -19,7 +19,7 @@ const items = [
 ];
 
 const Profile = ({ id }) => {
-  const [headerState, headerDispatch] = useContext(HeaderContext);
+  const [, headerDispatch] = useContext(HeaderContext);
   const [currentProduct, setCurrentProduct] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [color, setColor] = useState('');
@@ -32,6 +32,10 @@ const Profile = ({ id }) => {
   const getProductData = () => {
     getProduct(id).then((data) => {
       setCurrentProduct(data);
+      if (data.options.colors.length === 1)
+        setColor(data.options.colors[0].code);
+      if (data.options.storages.length === 1)
+        setStorage(data.options.storages[0].code);
       localStorage.setItem('currentModel', data.model);
     });
   };

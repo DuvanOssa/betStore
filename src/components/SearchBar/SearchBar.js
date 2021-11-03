@@ -1,4 +1,4 @@
-import { Fragment } from 'preact';
+import { h, Fragment } from 'preact';
 import style from './style.css';
 
 export const SearchBar = ({ value, handleChange }) => {
