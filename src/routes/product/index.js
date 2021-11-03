@@ -1,6 +1,8 @@
 import { h } from 'preact';
-import { useEffect, useState } from 'preact/hooks';
+import { useContext, useEffect, useState } from 'preact/hooks';
 import { Select } from '../../components/select/Select';
+import { HeaderContext } from '../../context/headerContext';
+import AddToCartService from '../../service/Api/AddToCart';
 import getProduct from '../../service/Api/GetProduct';
 import style from './style.css';
 
@@ -17,7 +19,11 @@ const items = [
 ];
 
 const Profile = ({ id }) => {
+  const [headerState, headerDispatch] = useContext(HeaderContext);
   const [currentProduct, setCurrentProduct] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [color, setColor] = useState('');
+  const [storage, setStorage] = useState('');
 
   useEffect(() => {
     getProductData();
@@ -28,6 +34,17 @@ const Profile = ({ id }) => {
       setCurrentProduct(data);
       localStorage.setItem('currentModel', data.model);
     });
+  };
+
+  const handleColorChange = (e) => {
+    setColor(e.target.value);
+  };
+  const handleStorageChange = (e) => {
+    setStorage(e.target.value);
+  };
+
+  const isDisable = () => {
+    return !color || !storage || isLoading;
   };
 
   const getItemDescription = (item) => {
@@ -43,6 +60,24 @@ const Profile = ({ id }) => {
         </div>
       )
     );
+  };
+
+  const addToCart = () => {
+    const paylod = {
+      id: currentProduct.id,
+      colorCode: color,
+      storageCode: storage,
+    };
+    setIsLoading(true);
+    AddToCartService(paylod).then((response) => {
+      setIsLoading(false);
+      headerDispatch({
+        type: 'ADDTOCART',
+        payload: {
+          cartCount: response.count,
+        },
+      });
+    });
   };
 
   return (
@@ -82,6 +117,8 @@ const Profile = ({ id }) => {
                   options={currentProduct.options.colors}
                   labelText='Color: '
                   placeHolder='Escoja un Color'
+                  value={color}
+                  handleChange={handleColorChange}
                 />
               )}
               {currentProduct.options.storages && (
@@ -89,10 +126,14 @@ const Profile = ({ id }) => {
                   options={currentProduct.options.storages}
                   labelText='Almacenamiento: '
                   placeHolder='Escoja el almacenamiento'
+                  value={storage}
+                  handleChange={handleStorageChange}
                 />
               )}
             </div>
-            <button>Agregar al carrito</button>
+            <button disabled={isDisable()} onClick={addToCart}>
+              {isLoading ? 'Agregando...' : 'Agregar al carrito'}
+            </button>
           </div>
         </div>
       )}

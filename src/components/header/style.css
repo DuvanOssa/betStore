@@ -17,6 +17,18 @@
     text-align: center;
 }
 
+.cartCount {
+    position: absolute;
+    background-color: #e4a61d;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    padding: 2px;
+    top: -8px;
+    right: -8px;
+}
+
 .inLine {
     display: flex;
     flex-direction: row;

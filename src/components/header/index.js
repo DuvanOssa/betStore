@@ -1,11 +1,13 @@
 import { h } from 'preact';
 import { Link } from 'preact-router/match';
-import { useEffect, useState } from 'preact/hooks';
+import { useContext, useEffect, useState } from 'preact/hooks';
+import { HeaderContext } from '../../context/headerContext';
 import getProduct from '../../service/Api/GetProduct';
 import style from './style.css';
 
 const Header = ({ currentProductId }) => {
   const [currentProduct, setCurrentProduct] = useState(null);
+  const [headerState] = useContext(HeaderContext);
 
   useEffect(() => {
     if (currentProductId) getProductData();
@@ -37,8 +39,9 @@ const Header = ({ currentProductId }) => {
         <h1>BetStore</h1>
         <h3>Tecnología más cerca de tí</h3>
       </Link>
-      <div>
+      <div style={{ position: 'relative' }}>
         <img src='../../assets/cart.png' alt='cart' />
+        <span class={style.cartCount}>{headerState.cartCount}</span>
       </div>
 
       {/* <nav>

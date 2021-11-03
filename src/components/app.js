@@ -7,6 +7,7 @@ import Header from './header';
 import Home from '../routes/home';
 import Product from '../routes/product';
 import { useState } from 'preact/hooks';
+import HeaderProvider from '../context/headerContext';
 
 const App = () => {
   const [currentProductId, setCurrentProductId] = useState('');
@@ -15,11 +16,13 @@ const App = () => {
   };
   return (
     <div id='app'>
-      <Header currentProductId={currentProductId} />
-      <Router onChange={onRouteChange}>
-        <Home path='/' />
-        <Product path='/product/:id' />
-      </Router>
+      <HeaderProvider>
+        <Header currentProductId={currentProductId} />
+        <Router onChange={onRouteChange}>
+          <Home path='/' />
+          <Product path='/product/:id' />
+        </Router>
+      </HeaderProvider>
     </div>
   );
 };
