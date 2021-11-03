@@ -8,8 +8,8 @@ const Header = ({ currentProductId }) => {
   const [currentProduct, setCurrentProduct] = useState(null);
 
   useEffect(() => {
-    getProductData();
-    console.log(currentProductId);
+    if (currentProductId) getProductData();
+    else setCurrentProduct(null);
   }, [currentProductId]);
 
   const getProductData = () => {
