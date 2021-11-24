@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import { useContext, useEffect, useState } from 'preact/hooks';
+import { useCallback, useContext, useEffect, useState } from 'preact/hooks';
 import { Select } from '../../components/select/Select';
 import { HeaderContext } from '../../context/headerContext';
 import AddToCartService from '../../service/Api/AddToCart';
@@ -26,19 +26,18 @@ const Profile = ({ id }) => {
   const [storage, setStorage] = useState('');
 
   useEffect(() => {
+    const getProductData = () => {
+      getProduct(id).then((data) => {
+        setCurrentProduct(data);
+        if (data.options.colors.length === 1)
+          setColor(data.options.colors[0].code);
+        if (data.options.storages.length === 1)
+          setStorage(data.options.storages[0].code);
+        localStorage.setItem('currentModel', data.model);
+      });
+    };
     getProductData();
-  }, []);
-
-  const getProductData = () => {
-    getProduct(id).then((data) => {
-      setCurrentProduct(data);
-      if (data.options.colors.length === 1)
-        setColor(data.options.colors[0].code);
-      if (data.options.storages.length === 1)
-        setStorage(data.options.storages[0].code);
-      localStorage.setItem('currentModel', data.model);
-    });
-  };
+  }, [id]);
 
   const handleColorChange = (e) => {
     setColor(e.target.value);
@@ -51,8 +50,8 @@ const Profile = ({ id }) => {
     return !color || !storage || isLoading;
   };
 
-  const getItemDescription = (item) => {
-    return (
+  const getItemDescription = useCallback(
+    (item) =>
       currentProduct[item] && (
         <div class={style.inLine}>
           <img
@@ -62,11 +61,11 @@ const Profile = ({ id }) => {
           />
           <span>{currentProduct[item]}</span>
         </div>
-      )
-    );
-  };
+      ),
+    [currentProduct]
+  );
 
-  const addToCart = () => {
+  const addToCart = useCallback(() => {
     const paylod = {
       id: currentProduct.id,
       colorCode: color,
@@ -82,7 +81,7 @@ const Profile = ({ id }) => {
         },
       });
     });
-  };
+  }, [color, currentProduct, headerDispatch, storage]);
 
   return (
     <div class={style.product}>

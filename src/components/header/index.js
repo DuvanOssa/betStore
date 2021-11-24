@@ -10,16 +10,17 @@ const Header = ({ currentProductId }) => {
   const [headerState] = useContext(HeaderContext);
 
   useEffect(() => {
+    const getProductData = () => {
+      getProduct(currentProductId).then((data) => {
+        setCurrentProduct(data);
+        localStorage.setItem('currentModel', data.model);
+      });
+    };
+
     if (currentProductId) getProductData();
     else setCurrentProduct(null);
   }, [currentProductId]);
 
-  const getProductData = () => {
-    getProduct(currentProductId).then((data) => {
-      setCurrentProduct(data);
-      localStorage.setItem('currentModel', data.model);
-    });
-  };
   return (
     <header class={style.header}>
       <div class={style.inLine}>
@@ -43,12 +44,6 @@ const Header = ({ currentProductId }) => {
         <img src='../../assets/cart.png' alt='cart' />
         <span class={style.cartCount}>{headerState.cartCount}</span>
       </div>
-
-      {/* <nav>
-			<Link activeClassName={style.active} href="/">Home</Link>
-			<Link activeClassName={style.active} href="/profile">Me</Link>
-			<Link activeClassName={style.active} href="/profile/john">John</Link>
-		</nav> */}
     </header>
   );
 };
